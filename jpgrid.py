@@ -226,9 +226,18 @@ def multi_jp_grid(gridcode,step=1):
         return str(gridcode)[0:6]
     elif step == 80:
         return str(gridcode)[0:8]
+    
+def neighboring_mesh_extract(mesh_code,fourdir=False,self_inc=True):
+    lon,lat,base1 = _decode_c2i(mesh_code)
+    if fourdir:
+        range = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+    else:
+        range = [(-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1)]
+    if self_inc:
+        range+= [(0,0)]
+    return [_encode_i2c(lon+x,lat+y,base1) for x,y in range]
 
 # def polygon_encode(step=1):
-
 if __name__ == '__main__':
     print(encode(latitude=34.7359,longitude=139.0012,base1=800))
 
